@@ -27,8 +27,7 @@ public record ApiResponse<T> (
         return new ApiResponse<>(false, errorCode.getMessage(), null);
     }
 
-    public static <T> ApiResponse<T> failure(ErrorCode errorCode
-            , String detailMessage) {
+    public static <T> ApiResponse<T> failure(ErrorCode errorCode, String detailMessage) {
         String fullMessage = errorCode.getMessage();
         if (detailMessage != null && !detailMessage.trim().isEmpty()) {
             fullMessage += " - " + detailMessage;

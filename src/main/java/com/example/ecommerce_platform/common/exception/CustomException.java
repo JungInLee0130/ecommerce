@@ -11,9 +11,10 @@ public class CustomException extends RuntimeException{
         this.errorCode = errorCode;
     }
 
-    public CustomException(String message, ErrorCode errorCode) {
+    public CustomException(String detailMessage, ErrorCode errorCode) {
         super(errorCode.getMessage()
-                + message != null ? "-" + message : "");
+                + detailMessage != null && !detailMessage.trim().isEmpty()
+                ? "-" + detailMessage : "");
         this.errorCode = errorCode;
     }
 }
