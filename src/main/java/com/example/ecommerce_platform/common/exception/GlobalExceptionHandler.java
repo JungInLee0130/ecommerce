@@ -53,8 +53,8 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(
                 ApiResponse.failure(
-                        ErrorCode.INTERNAL_SERVER_ERROR.getMessage() +
-                                (ex.getMessage() != null ? " - " + ex.getMessage() : "")
+                        ErrorCode.INTERNAL_SERVER_ERROR.getMessage()
+                                + (ex.getMessage() != null ? " - " + ex.getMessage() : "")
                 ),
                         ErrorCode.INTERNAL_SERVER_ERROR.getStatus()
         );

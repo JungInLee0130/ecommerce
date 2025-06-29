@@ -2,6 +2,7 @@ package com.example.ecommerce_platform.member.dto.response;
 
 import com.example.ecommerce_platform.member.entity.Member;
 
+
 public record MemberSignUpResponse(
         Long memberId,
         String email,
