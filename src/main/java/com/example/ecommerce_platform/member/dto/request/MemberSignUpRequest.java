@@ -1,9 +1,12 @@
 package com.example.ecommerce_platform.member.dto.request;
 
 
+import com.example.ecommerce_platform.member.domain.Address;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 
+@Builder
 public record MemberSignUpRequest (
         @NotBlank(message = "이메일은 필수 입력 값입니다.")
         @Email(message = "유효한 이메일 주소를 입력해주세요.")
@@ -24,7 +27,6 @@ public record MemberSignUpRequest (
         @Size(max = 50, message = "이름은 50자 이하로 입력해주세요.")
         String name,
 
-        @NotNull(message = "주소는 필수 입력 값입니다.")
         @Valid
-        AddressRequest address
+        Address address
 ){ }

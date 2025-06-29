@@ -56,7 +56,7 @@ public class Member {
         this.role = role;
     }
 
-    public void addAddress(Address address) {
+    public void updateAddress(Address address) {
         this.address = address;
     }
 
