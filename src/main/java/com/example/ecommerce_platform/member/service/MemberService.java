@@ -5,6 +5,8 @@ import com.example.ecommerce_platform.common.exception.ErrorCode;
 import com.example.ecommerce_platform.member.domain.Address;
 import com.example.ecommerce_platform.member.domain.Role;
 import com.example.ecommerce_platform.member.dto.request.MemberSignUpRequest;
+import com.example.ecommerce_platform.member.dto.request.MemberUpdateRequest;
+import com.example.ecommerce_platform.member.dto.response.MemberResponse;
 import com.example.ecommerce_platform.member.dto.response.MemberSignUpResponse;
 import com.example.ecommerce_platform.member.entity.Member;
 import com.example.ecommerce_platform.member.repository.MemberRepository;
@@ -30,19 +32,12 @@ public class MemberService {
         // 2. 비밀번호 암호화 (나중에 Spring Security 추가 시 구현)
         String rawPassword = request.password();
 
-        // 3. AddressRequest -> Address
-        Address address = new Address(
-                request.address().street()
-                , request.address().detail()
-                , request.address().zipcode()
-        );
-
         // 4. MemberSignUpRequest -> Member
         Member memberToSave = Member.builder()
                 .email(request.email())
                 .password(rawPassword)
                 .name(request.name())
-                .address(address)
+                .address(request.address())
                 .role(Role.USER)
                 .build();
 
@@ -55,13 +50,37 @@ public class MemberService {
         return memberRepository.existsByEmail(email);
     }
 
-    @Transactional
-    public void updateMember() {
+    public MemberResponse findMemberById(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
+        return MemberResponse.from(member);
+    }
+
+    public MemberResponse findMemberByEmail(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        return MemberResponse.from(member);
     }
 
     @Transactional
-    public void deleteMember() {
+    public MemberResponse updateMember(Long memberId, MemberUpdateRequest request) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
+        if (request.address() != null) {
+            member.updateAddress(request.address());
+        }
+
+        return MemberResponse.from(member);
+    }
+
+    @Transactional
+    public void deleteMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        memberRepository.delete(member);
     }
 }
