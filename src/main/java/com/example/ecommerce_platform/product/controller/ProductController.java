@@ -36,7 +36,7 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.success("상품 조회 성공", response));
     }
 
-    // 모든상품목록조회 성공
+    // 모든 상품 목록 조회
     @GetMapping
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getAllProducts() {
         List<ProductResponse> products = productService.getAllProducts();
