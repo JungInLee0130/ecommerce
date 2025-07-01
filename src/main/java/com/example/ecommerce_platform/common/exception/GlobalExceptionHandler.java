@@ -19,10 +19,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
 
-        Map<String, String> errors = new HashMap<>();   // {"필드이름" : "에러메시지"}
+        Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField(); // 필드 이름
-            String errorMessage = error.getDefaultMessage();    // 에러메시지
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
 
