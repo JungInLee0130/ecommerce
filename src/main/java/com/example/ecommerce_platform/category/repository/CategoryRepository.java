@@ -1,6 +1,5 @@
 package com.example.ecommerce_platform.category.repository;
 
-
 import com.example.ecommerce_platform.category.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
