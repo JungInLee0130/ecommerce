@@ -20,8 +20,8 @@ public class ProductController {
 
     // 제품등록
     @PostMapping
-    public ResponseEntity<ApiResponse<Long>> registerProduct(@Valid @RequestBody ProductCreateRequest request) {
-        Long productId = productService.registerProduct(request);
+    public ResponseEntity<ApiResponse<Long>> addProduct(@Valid @RequestBody ProductCreateRequest request) {
+        Long productId = productService.addProduct(request);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("상품이 성공적으로 등록되었습니다.", productId));

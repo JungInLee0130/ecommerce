@@ -1,4 +1,4 @@
-package com.example.ecommerce_platform.product;
+package com.example.ecommerce_platform.product.repository;
 
 import com.example.ecommerce_platform.category.entity.Category;
 import com.example.ecommerce_platform.product.entity.Product;
@@ -26,4 +26,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByNameContainingIgnoreCase(String name);
 
     List<Product> findByNameContainingIgnoreCaseAndCategory(String name, Category category);
+
+    boolean existsByCategoryId(Long id);
 }
