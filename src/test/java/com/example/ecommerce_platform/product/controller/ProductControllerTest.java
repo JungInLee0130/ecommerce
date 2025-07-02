@@ -1,6 +1,5 @@
 package com.example.ecommerce_platform.product.controller;
 
-import com.example.ecommerce_platform.category.entity.Category;
 import com.example.ecommerce_platform.common.exception.CustomException;
 import com.example.ecommerce_platform.common.exception.ErrorCode;
 import com.example.ecommerce_platform.product.dto.request.ProductCreateRequest;
@@ -46,10 +45,10 @@ class ProductControllerTest {
 
     @Test
     @DisplayName("상품 등록 성공 테스트")
-    void registerProduct_Success() throws Exception {
+    void addProduct_Success() throws Exception {
         Long expectedProductId = 1L;
 
-        given(productService.registerProduct(any(ProductCreateRequest.class)))
+        given(productService.addProduct(any(ProductCreateRequest.class)))
                 .willReturn(expectedProductId);
 
         ProductCreateRequest validProductCreateRequest = new ProductCreateRequest(
@@ -72,7 +71,7 @@ class ProductControllerTest {
 
     @Test
     @DisplayName("상품 등록 실패 테스트 - 유효성 검사 오류 (이름 누락)")
-    void registerProduct_ValidationFailure_NamingMissing() throws Exception {
+    void addProduct_ValidationFailure_NamingMissing() throws Exception {
         ProductCreateRequest invalidRequest = new ProductCreateRequest(
                 "",
                 BigDecimal.valueOf(100),
@@ -95,8 +94,8 @@ class ProductControllerTest {
     
     @Test
     @DisplayName("상품 등록 실패 테스트 - 서비스 예외 발생 (존재하지 않는 카테고리)")
-    void registerProduct_ServiceException_CategoryNotFound() throws Exception {
-        given(productService.registerProduct(any(ProductCreateRequest.class)))
+    void addProduct_ServiceException_CategoryNotFound() throws Exception {
+        given(productService.addProduct(any(ProductCreateRequest.class)))
                 .willThrow(new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
 
         ProductCreateRequest requestWithInvalidCategory = new ProductCreateRequest(

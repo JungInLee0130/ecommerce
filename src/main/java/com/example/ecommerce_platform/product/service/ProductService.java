@@ -8,7 +8,7 @@ import com.example.ecommerce_platform.product.entity.Product;
 import java.util.*;
 
 public interface ProductService {
-    Long registerProduct(ProductCreateRequest request);
+    Long addProduct(ProductCreateRequest request);
 
     void updateProduct(Long productId, ProductUpdateRequest request);
 
@@ -20,13 +20,13 @@ public interface ProductService {
 
     List<ProductResponse> getAllProducts();
 
-    List<Product> getProductsBySellerId(Long sellerId);
+    List<ProductResponse> getProductsBySellerId(Long sellerId);
 
-    List<Product> getProductsByCategoryId(Long categoryId);
+    List<ProductResponse> getProductsByCategoryId(Long categoryId);
 
     void deleteProduct(Long productId);
 
-    List<Product> searchProductsByName(String keyword);
+    List<ProductResponse> searchProductsByName(String keyword);
 
-    List<Product> searchProductsInCategoryByName(Long categoryId, String keyword);
+    List<ProductResponse> searchProductsInCategoryByName(Long categoryId, String keyword);
 }
