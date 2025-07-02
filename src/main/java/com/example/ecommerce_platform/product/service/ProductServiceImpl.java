@@ -4,7 +4,7 @@ import com.example.ecommerce_platform.category.entity.Category;
 import com.example.ecommerce_platform.category.repository.CategoryRepository;
 import com.example.ecommerce_platform.common.exception.CustomException;
 import com.example.ecommerce_platform.common.exception.ErrorCode;
-import com.example.ecommerce_platform.product.ProductRepository;
+import com.example.ecommerce_platform.product.repository.ProductRepository;
 import com.example.ecommerce_platform.product.dto.request.ProductCreateRequest;
 import com.example.ecommerce_platform.product.dto.request.ProductUpdateRequest;
 import com.example.ecommerce_platform.product.dto.response.ProductResponse;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Long registerProduct(ProductCreateRequest request) {
+    public Long addProduct(ProductCreateRequest request) {
         Category category = categoryRepository.findById(request.categoryId())
                 .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
 
@@ -100,27 +99,49 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsBySellerId(Long sellerId) {
-        return null;
+    public List<ProductResponse> getProductsBySellerId(Long sellerId) {
+        return productRepository.findBySellerId(sellerId)
+                .stream()
+                .map(ProductResponse::from)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Product> getProductsByCategoryId(Long categoryId) {
-        return null;
+    public List<ProductResponse> getProductsByCategoryId(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        return productRepository.findByCategory(category)
+                .stream()
+                .map(ProductResponse::from)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void deleteProduct(Long productId) {
+        if (!productRepository.existsById(productId)) {
+            throw new CustomException(ErrorCode.PRODUCT_NOT_FOUND);
+        }
 
+        productRepository.deleteById(productId);
     }
 
     @Override
-    public List<Product> searchProductsByName(String keyword) {
-        return null;
+    public List<ProductResponse> searchProductsByName(String keyword) {
+        return productRepository.findByNameContainingIgnoreCase(keyword)
+                .stream()
+                .map(ProductResponse::from)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Product> searchProductsInCategoryByName(Long categoryId, String keyword) {
-        return null;
+    public List<ProductResponse> searchProductsInCategoryByName(Long categoryId, String keyword) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        return productRepository.findByNameContainingIgnoreCaseAndCategory(keyword, category)
+                .stream()
+                .map(ProductResponse::from)
+                .collect(Collectors.toList());
     }
 }

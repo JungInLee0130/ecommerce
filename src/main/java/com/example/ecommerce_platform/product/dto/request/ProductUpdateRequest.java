@@ -18,6 +18,7 @@ public record ProductUpdateRequest (
         @Size(max = 500, message = "이미지 URL은 500자를 초과할 수 없습니다.")
         String imageUrl,
 
+
         Long categoryId
 ){
 
